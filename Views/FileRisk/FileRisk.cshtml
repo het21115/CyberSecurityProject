@@ -1,0 +1,103 @@
+@model FileRiskViewModel
+@{
+    ViewData["Title"] = "File Risk Analysis";
+}
+
+<h1>File Risk Analysis</h1>
+<p class="text-muted">Upload a file for local heuristic screening. This is not a replacement for antivirus software.</p>
+
+@if (TempData["Success"] is string successMessage)
+{
+    var analysisScore = Convert.ToInt32(TempData["AnalysisScore"] ?? 0);
+    var analysisClassification = Convert.ToString(TempData["AnalysisClassification"]) ?? "Unknown";
+    var scoreClass = analysisClassification.ToLowerInvariant() switch
+    {
+        "high" => "risk-score-high",
+        "medium" => "risk-score-medium",
+        _ => "risk-score-low"
+    };
+
+    <div class="analysis-complete-card @scoreClass" role="status">
+        <div class="analysis-complete-message">
+            <span class="analysis-check" aria-hidden="true">✓</span>
+            <div>
+                <strong>Analysis complete</strong>
+                <p>@successMessage</p>
+            </div>
+        </div>
+        <div class="risk-score-display">
+            <div class="risk-score-circle">
+                <strong>@analysisScore<span>%</span></strong>
+                <small>Risk score</small>
+            </div>
+            <div class="risk-score-info">
+                <span class="risk-score-label">@analysisClassification risk</span>
+                <p>Based on the local heuristic analysis of this file.</p>
+            </div>
+        </div>
+    </div>
+}
+
+<form asp-action="Analyze" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="File" class="form-label">File (maximum 1 GB)</label>
+        <input asp-for="File" class="form-control" />
+        <span asp-validation-for="File" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Upload and analyze</button>
+</form>
+
+<section class="mt-4 recent-analyses-section">
+    <div class="recent-analyses-heading">
+        <div>
+            <span class="recent-analyses-eyebrow">ACTIVITY</span>
+            <h2>Recent analyses</h2>
+            <p>Your latest file security assessments</p>
+        </div>
+        <span class="recent-analyses-count">@Model.History.Count</span>
+    </div>
+
+    @if (Model.History.Count == 0)
+    {
+        <p class="text-muted">No previous analyses yet.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table recent-analyses-table">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Risk</th>
+                        <th>Score</th>
+                        <th>Summary</th>
+                        <th>Analyzed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.History)
+                {
+                    <tr>
+                        <td>
+                            <div class="recent-file-name">@item.FileName</div>
+                            <small class="recent-file-meta">@item.FileSize.ToString("N0") bytes</small>
+                            <small class="recent-file-hash">SHA-256: @item.Hash</small>
+                        </td>
+                        <td><span class="recent-risk-badge recent-risk-@item.Classification.ToLowerInvariant()">@item.Classification</span></td>
+                        <td><strong class="recent-score">@item.RiskScore<span>/100</span></strong></td>
+                        <td class="recent-summary">@item.Summary</td>
+                        <td class="recent-date">@item.AnalysedAt.ToLocalTime().ToString("dd-MM-yyyy")<br /><span>@item.AnalysedAt.ToLocalTime().ToString("HH:mm")</span></td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

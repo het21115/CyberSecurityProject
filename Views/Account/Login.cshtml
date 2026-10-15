@@ -1,0 +1,65 @@
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <h1>Sign in</h1>
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (Model.LockoutSecondsRemaining > 0)
+            {
+                <div class="alert alert-warning" role="alert">
+                    You can try again in <strong id="lockout-countdown">@Model.LockoutSecondsRemaining</strong> seconds.
+                </div>
+            }
+            <div class="mb-3">
+                <label asp-for="UsernameOrEmail" class="form-label"></label>
+                <input asp-for="UsernameOrEmail" class="form-control" autocomplete="username" />
+                <span asp-validation-for="UsernameOrEmail" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" autocomplete="current-password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="CaptchaAnswer" class="form-label">Enter Captcha*</label>
+                <div class="d-flex align-items-center gap-2 mb-2">
+                    <img id="captcha-image" src="@Url.Action("Captcha", "Account")" alt="CAPTCHA image" class="captcha-image" />
+                    <button id="refresh-captcha" type="button" class="btn btn-link captcha-refresh" aria-label="Refresh CAPTCHA">&#x21bb;</button>
+                </div>
+                <input asp-for="CaptchaAnswer" class="form-control" autocomplete="off" />
+                <span asp-validation-for="CaptchaAnswer" class="text-danger"></span>
+            </div>
+            <div class="form-check mb-3">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </form>
+        <p class="mt-3">New user? <a asp-controller="Account" asp-action="Registration">Create an account</a></p>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.getElementById("refresh-captcha").addEventListener("click", function () {
+            document.getElementById("captcha-image").src = "@Url.Action("Captcha", "Account")?t=" + Date.now();
+        });
+
+        const countdown = document.getElementById("lockout-countdown");
+        if (countdown) {
+            let seconds = Number(countdown.textContent);
+            const timer = window.setInterval(function () {
+                seconds -= 1;
+                countdown.textContent = seconds;
+                if (seconds <= 0) {
+                    window.clearInterval(timer);
+                    window.location.reload();
+                }
+            }, 1000);
+        }
+    </script>
+}
