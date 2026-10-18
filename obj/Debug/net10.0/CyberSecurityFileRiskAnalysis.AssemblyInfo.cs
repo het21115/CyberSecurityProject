@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CyberSecurityFileRiskAnalysis")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a5a7e4dee47d69afe662414a0b71d8cecf455aed")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+46fbc45acf9bde7d31b912246b23dac543f14d70")]
 [assembly: System.Reflection.AssemblyProductAttribute("CyberSecurityFileRiskAnalysis")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CyberSecurityFileRiskAnalysis")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

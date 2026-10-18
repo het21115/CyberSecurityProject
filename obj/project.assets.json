@@ -3720,11 +3720,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Honey\\Desktop\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\CyberSecurityFileRiskAnalysis.csproj",
+      "projectUniqueName": "E:\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\CyberSecurityFileRiskAnalysis.csproj",
       "projectName": "CyberSecurityFileRiskAnalysis",
-      "projectPath": "C:\\Users\\Honey\\Desktop\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\CyberSecurityFileRiskAnalysis.csproj",
+      "projectPath": "E:\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\CyberSecurityFileRiskAnalysis.csproj",
       "packagesPath": "C:\\Users\\Honey\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Honey\\Desktop\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\obj\\",
+      "outputPath": "E:\\Het\\CyberSecurityProject\\CyberSecurityFileRiskAnalysis\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
